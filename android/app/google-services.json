@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "386713600488",
+    "project_id": "yahoooo",
+    "storage_bucket": "yahoooo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386713600488:android:05f4fce33196417d87a45d",
+        "android_client_info": {
+          "package_name": "com.example.studio13"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdZMtw0w3xYorrH8EVnaIEULK6mKr6xCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
