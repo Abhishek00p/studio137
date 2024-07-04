@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studio13/core/router.dart';
+import 'package:studio13/presentation/blocs/auth_cubit.dart';
 import 'package:studio13/presentation/blocs/login/login_cubit.dart';
 import 'package:studio13/presentation/blocs/login/login_state.dart';
 
@@ -33,6 +35,12 @@ class _LoginScreenState extends State<LoginScreen> {
         }
         if (state is LoginLoadedState) {
           SnackBar snackBar = SnackBar(content: Text(state.result ? 'Successfully Logged In' : 'Failed to Login user'));
+
+          if (state.result) {
+            context.read<AuthCubit>().updateStatus(AuthStatus.authenticated);
+          } else {
+            context.read<AuthCubit>().updateStatus(AuthStatus.unauthenticated);
+          }
           appRouter.refresh();
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
@@ -46,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyle(fontSize: 24),
             ),
             Container(
-              margin: EdgeInsets.all(8),
+              margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(border: Border.all(), borderRadius: BorderRadius.circular(8)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -75,21 +83,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           context.read<LoginCubit>().loginUser(email: emailController.text, password: passController.text);
                         },
-                        child: const Text('Login'))
+                        child: BlocBuilder<LoginCubit, LoginState>(
+                          buildWhen: (previous, current) => previous != current,
+                          builder: (context, state) {
+                            return (state is LoginLoadingState) ? const CircularProgressIndicator() : const Text('Login');
+                          },
+                        ))
                   ],
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
                   onPressed: () {
-                    appRouter.goNamed(AppRouterStrings.register);
+                    context.pushNamed(AppRouterStrings.register);
                   },
-                  child: Text(
+                  child: const Text(
                     'Or Register here',
                     style: TextStyle(color: Colors.blue, fontSize: 14),
                   )),

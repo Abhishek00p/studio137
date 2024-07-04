@@ -5,6 +5,8 @@ import 'package:studio13/firebase_options.dart';
 import 'package:studio13/presentation/blocs/auth_cubit.dart';
 import 'package:studio13/core/router.dart';
 import 'package:studio13/presentation/blocs/login/login_cubit.dart';
+import 'package:studio13/presentation/blocs/network_checker/network_checker_cubit.dart';
+import 'package:studio13/presentation/blocs/register/register_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,10 +22,16 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AuthCubit(),
+          create: (context) => AuthCubit()..checkAuthentication(),
         ),
         BlocProvider(
           create: (context) => LoginCubit(),
+        ),
+        BlocProvider(
+          create: (context) => RegisterCubit(),
+        ),
+        BlocProvider(
+          create: (context) => NetworkCheckerCubit(),
         ),
       ],
       child: Material(

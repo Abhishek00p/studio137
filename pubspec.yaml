@@ -44,6 +44,9 @@ dependencies:
   injectable: ^2.4.2
   build_runner: ^2.4.9
   get_it: ^7.7.0
+  ticket_clippers: ^0.0.8
+  permission_handler: ^11.3.1
+  internet_connection_checker: ^1.0.0+1
 
 dev_dependencies:
   flutter_test:
@@ -68,8 +71,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

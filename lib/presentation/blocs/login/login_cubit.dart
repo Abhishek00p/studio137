@@ -18,14 +18,11 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  Future<void> registerUser({required String email, required String password}) async {
+  Future<void> logOutUser() async {
     try {
-      emit(LoginLoadingState());
-      final result = await firebaseAuthRepo.register(email: email, password: password);
-      emit(LoginLoadedState(result: result));
+      await firebaseAuthRepo.logOutUser();
     } catch (e) {
-      debugPrint('Error while register in LoginCubit : $e');
-      emit(LoginErrorState());
+      debugPrint('Error while Logout in LoginCubit : $e');
     }
   }
 }

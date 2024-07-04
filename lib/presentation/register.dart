@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studio13/core/router.dart';
-import 'package:studio13/presentation/blocs/login/login_cubit.dart';
-import 'package:studio13/presentation/blocs/login/login_state.dart';
+import 'package:studio13/presentation/blocs/register/register._state.dart';
+import 'package:studio13/presentation/blocs/register/register_cubit.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -24,14 +24,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginCubit, LoginState>(
+    return BlocListener<RegisterCubit, RegisterState>(
       listener: (context, state) {
-        if (state is LoginErrorState) {
+        if (state is RegisterErrorState) {
           SnackBar snackBar = const SnackBar(content: Text('Failed to Register'));
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
-        if (state is LoginLoadedState) {
+        if (state is RegisterLoadedState) {
           SnackBar snackBar = SnackBar(content: Text(state.result ? 'Successfully Registered' : 'Failed to Register user'));
           appRouter.refresh();
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -46,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               style: TextStyle(fontSize: 24),
             ),
             Container(
-              margin: EdgeInsets.all(8),
+              margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(border: Border.all(), borderRadius: BorderRadius.circular(8)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -73,14 +73,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          context.read<LoginCubit>().loginUser(email: emailController.text, password: passController.text);
+                          context.read<RegisterCubit>().registerUser(email: emailController.text, password: passController.text);
                         },
-                        child: const Text('Create Acccount'))
+                        child: BlocBuilder<RegisterCubit, RegisterState>(
+                          buildWhen: (previous, current) => previous != current,
+                          builder: (context, state) {
+                            return (state is RegisterLoadingState) ? const CircularProgressIndicator() : const Text('Create Acccount');
+                          },
+                        ))
                   ],
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Align(
@@ -89,7 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onPressed: () {
                     appRouter.pushReplacementNamed(AppRouterStrings.login);
                   },
-                  child: Text(
+                  child: const Text(
                     'Or Login here',
                     style: TextStyle(color: Colors.blue, fontSize: 14),
                   )),
