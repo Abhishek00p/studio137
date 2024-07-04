@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studio13/data/firebase/firebase_auth_repository.dart';
+import 'package:studio13/firebase/firebase_auth_repository.dart';
 import 'package:studio13/presentation/blocs/login/login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {

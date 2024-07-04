@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studio13/data/firebase/firebase_auth_repository.dart';
+import 'package:studio13/firebase/firebase_auth_repository.dart';
 
 class AuthCubit extends Cubit<AuthStatus> {
   AuthCubit() : super(AuthStatus.unknown);
